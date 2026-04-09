@@ -1,10 +1,14 @@
-function App()
-{
+import Navbar from "./components/Navbar";
+function App() {
   return (
-    <>
-      <h1>Welcome to MarketMirror</h1>
-      <p>Your stock tracking dashboard</p>
-    </>
+    <div className='min-h-screen bg-gray-50'> 
+      <Navbar /> 
+      <main className='max-w-7xl mx-auto px-4 py-8'> 
+        <h1 className='text-3xl font-bold text-gray-800'> 
+          Stock Dashboard 
+        </h1> 
+      </main> 
+    </div> 
   );
 }
 
