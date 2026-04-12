@@ -1,3 +1,4 @@
+import { useState } from "react";
 import StockCard from "../components/StockCard";
 
 //Sample Data - later will fetchfrom real API
@@ -48,33 +49,80 @@ const sampleStocks = [
 ];
 
 function Dashboard() {
-  //we will add state later
+  // State: array of stock symbols the user has starred
+  const [watchList, setWatchList] = useState([]);
 
-  const watchList = [];
-  const handleToggle = (symbol) => console.log("Toggle :", symbol);
+  // State: current search query
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Toggle a stock in/out of the watchlist
+  const handleToggleWatchList = (symbol) => {
+    setWatchList((prev) => {
+      // If already in watchlist, remove it
+      if (prev.includes(symbol)) {
+        return prev.filter((s) => s !== symbol);
+      }
+      //otherwise add it
+      return [...prev, symbol];
+    });
+  };
+
+  // Filter stocks based on search query
+  const filteredStocks = sampleStocks.filter(
+    (stock) =>
+      stock.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      stock.symbol.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Market Overview</h1>
-      <p className="text-gray-500 mb-8">
-        Real-time stock prices and performance
-      </p>
+      {/*Search Bar */}
+      <div className="mb-8">
+        <input
+          type="text"
+          placeholder="Search stocks (e.g. AAPL, Tesla)...'"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full max-w-md px-4 py-3 border border-gray-300 
+                     rounded-xl shadow-sm focus:outline-none 
+                     focus:ring-2 focus:ring-blue-500 text-gray-700"
+        />
+      </div>
 
-      {/* Responsive grid: 1 col on mobile, 2 on tablet, 3 on desktop */}
+      {/*WatchList count badge */}
+      {watchList.length > 0 && (
+        <div className="mb-4 flex items-center gap-2">
+          <span className="text-sm text-gray-500">Watching:</span>
+          {watchList.map((s) => (
+            <span
+              key={s}
+              className="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full"
+            >
+              {s}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Stock Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sampleStocks.map((stock) => (
+        {filteredStocks.map((stock) => (
           <StockCard
             key={stock.symbol}
-            symbol={stock.symbol}
-            name={stock.name}
-            price={stock.price}
-            change={stock.change}
-            changePercent={stock.changePercent}
+            {...stock}
             onWatchlist={watchList.includes(stock.symbol)}
-            onToggleWatchlist={handleToggle}
+            onToggleWatchlist={handleToggleWatchList}
           />
         ))}
       </div>
+
+      {/* Empty state */}
+      {filteredStocks.length === 0 && (
+        <div className="text-center py-16 text-gray-400">
+          <p className="text-5xl mb-4">🔍</p>
+          <p className="text-xl">No stocks found for '{searchQuery}'</p>
+        </div>
+      )}
     </div>
   );
 }
