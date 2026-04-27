@@ -1,4 +1,5 @@
 import StockCard from "./components/StockCard";
+import StockCardLive from "./components/StockCardLive";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 function App() {

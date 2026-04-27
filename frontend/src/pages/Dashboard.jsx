@@ -1,5 +1,6 @@
 import { useState } from "react";
 import StockCard from "../components/StockCard";
+import StockCardLive from "../components/StockCardLive";
 
 //Sample Data - later will fetchfrom real API
 
@@ -107,9 +108,10 @@ function Dashboard() {
       {/* Stock Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredStocks.map((stock) => (
-          <StockCard
+          <StockCardLive
             key={stock.symbol}
-            {...stock}
+            symbol={stock.symbol}
+            name={stock.name}
             onWatchlist={watchList.includes(stock.symbol)}
             onToggleWatchlist={handleToggleWatchList}
           />
