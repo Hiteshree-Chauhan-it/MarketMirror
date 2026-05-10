@@ -5,7 +5,7 @@ import StockCardLive from "../components/StockCardLive";
 //Sample Data - later will fetchfrom real API
 
 const sampleStocks = [
-  {
+  { 
     symbol: "AAPL",
     name: "Apple Inc.",
     price: 182.63,
@@ -97,7 +97,7 @@ function Dashboard() {
           {watchList.map((s) => (
             <span
               key={s}
-              className="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full"
+              className="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded full"
             >
               {s}
             </span>
@@ -125,7 +125,7 @@ function Dashboard() {
           <p className="text-xl">No stocks found for '{searchQuery}'</p>
         </div>
       )}
-    </div>
+    </div> 
   );
 }
 export default Dashboard;
